@@ -144,6 +144,19 @@ let
       propagatedBuildInputs = [ _clickclick _stups-cli-support _stups-zign ];
       doCheck = false;
     };
+
+    _stups-berry = with python35Packages; buildPythonApplication rec {
+      name = "stups-berry-1.0.24";
+      src = fetchurl {
+        url = "https://pypi.io/packages/source/s/stups-berry/${name}.tar.gz";
+        md5 = "ac5d3ed687ef7622581a24c723b63870";
+      };
+      propagatedBuildInputs = [ pyyaml boto3 dns docutils ];
+      doCheck = false;
+      patchPhase = ''
+        sed -i 's/[\d128-\d255]//g' README.rst
+      '';
+    };
   };
 
 in with dependencies; buildPythonApplication rec {
@@ -157,8 +170,8 @@ in with dependencies; buildPythonApplication rec {
     md5 = "2e562b0de104a9708318b9d9573d8954";
   };
 
-  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop ];
-  propagatedUserEnvPkgs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop ];
+  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry ];
+  propagatedUserEnvPkgs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry];
 
   meta = {
     homepage = "https://github.com/zalando-stups/stups-cli";
