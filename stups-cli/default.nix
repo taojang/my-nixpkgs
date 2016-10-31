@@ -8,6 +8,15 @@ let
 
   dependencies = rec {
 
+    _dns = with python35Packages; buildPythonPackage rec {
+      name = "dnspython-1.15.0";
+      src = fetchurl {
+        url = "https://pypi.io/packages/source/d/dnspython/${name}.zip";
+        md5 = "05d33ffb5d8f35ae0474bb952778a344";
+      };
+      doCheck = false;
+    };
+
     _clickclick = with python35Packages; buildPythonPackage rec {
       name = "clickclick-1.1";
       src = fetchurl {
@@ -40,12 +49,12 @@ let
     };
 
     _stups-cli-support = with python35Packages; buildPythonPackage rec {
-       name = "stups-cli-support-1.0.9";
+       name = "stups-cli-support-1.0.10";
        src = fetchurl {
          url = "https://pypi.io/packages/source/s/stups-cli-support/${name}.tar.gz";
-         md5 = "8d8cc3030dd4b85184dcdbb4fc5ebc99";
+         md5 = "01e35a750699dc2b3db310f57ce01b82";
        };
-       propagatedBuildInputs = [ pyyaml dns requests2 _clickclick ];
+       propagatedBuildInputs = [ pyyaml _dns requests2 _clickclick ];
        doCheck = false;
     };
 
@@ -100,12 +109,12 @@ let
     };
 
     _stups-senza = with python35Packages; buildPythonApplication rec {
-      name = "stups-senza-2.0.123";
+      name = "stups-senza-2.0.160";
       src = fetchurl {
         url = "https://pypi.io/packages/source/s/stups-senza/${name}.tar.gz";
-        md5 = "df6d310b5f3f34defa9f1f1924adfb7f";
+        md5 = "0613f79f7a8ec1cc25fd1a6cdd7656b5";
       };
-      propagatedBuildInputs = [ _pystache pyyaml _stups-pierone pytest botocore boto3 docutils ];
+      propagatedBuildInputs = [ _dns _pystache pyyaml _stups-pierone pytest botocore boto3 docutils raven ];
       doCheck = false;
 
       # typing is part of python35
@@ -146,12 +155,25 @@ let
     };
 
     _stups-berry = with python35Packages; buildPythonApplication rec {
-      name = "stups-berry-1.0.24";
+      name = "stups-berry-1.0.25";
       src = fetchurl {
         url = "https://pypi.io/packages/source/s/stups-berry/${name}.tar.gz";
-        md5 = "ac5d3ed687ef7622581a24c723b63870";
+        md5 = "15113351a8fe13a58b7e985e36c0ce5c";
       };
-      propagatedBuildInputs = [ pyyaml boto3 dns docutils ];
+      propagatedBuildInputs = [ pyyaml boto3 _dns docutils ];
+      doCheck = false;
+      patchPhase = ''
+        sed -i 's/[\d128-\d255]//g' README.rst
+      '';
+    };
+
+    _scmsource = with python35Packages; buildPythonApplication rec {
+      name = "scm-source-1.0.9";
+      src = fetchurl {
+        url = "https://pypi.io/packages/source/s/scm-source/${name}.tar.gz";
+        md5 = "18db62d03076bd574602713535e46fb1";
+      };
+      propagatedBuildInputs = [ pyyaml _clickclick ];
       doCheck = false;
       patchPhase = ''
         sed -i 's/[\d128-\d255]//g' README.rst
@@ -170,8 +192,10 @@ in with dependencies; buildPythonApplication rec {
     md5 = "2e562b0de104a9708318b9d9573d8954";
   };
 
-  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry ];
-  propagatedUserEnvPkgs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry];
+  doCheck = false;
+
+  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource ];
+  propagatedUserEnvPkgs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource ];
 
   meta = {
     homepage = "https://github.com/zalando-stups/stups-cli";
