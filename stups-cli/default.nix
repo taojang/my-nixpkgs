@@ -18,10 +18,10 @@ let
     };
 
     _clickclick = with python35Packages; buildPythonPackage rec {
-      name = "clickclick-1.1";
+      name = "clickclick-1.2.1";
       src = fetchurl {
         url = "https://pypi.io/packages/source/c/clickclick/${name}.tar.gz";
-        md5 = "0c4ab79ba38ab4306edd744c4a025dd4";
+        md5 = "bd7e136f0ed3516589795be5c60dc386";
       };
       propagatedBuildInputs = [ click pyyaml ];
       doCheck = false;
@@ -69,10 +69,10 @@ let
     };
 
     _stups-cli-support = with python35Packages; buildPythonPackage rec {
-       name = "stups-cli-support-1.0.13";
+       name = "stups-cli-support-1.1.15";
        src = fetchurl {
          url = "https://pypi.io/packages/source/s/stups-cli-support/${name}.tar.gz";
-         md5 = "dd872c4f9698ab0af0a9fcf2b5948b72";
+         md5 = "473a3bbdc453404d81251121a31daff8";
        };
        propagatedBuildInputs = [ pyyaml _dns requests2 _clickclick ];
        doCheck = false;
@@ -97,10 +97,10 @@ let
     };
 
     _stups-zign = with python35Packages; buildPythonApplication rec {
-      name = "stups-zign-1.0.33";
+      name = "stups-zign-1.1.28";
       src = fetchurl {
         url = "https://pypi.io/packages/source/s/stups-zign/${name}.tar.gz";
-        md5 = "6971913c7479461764b880497f42da39";
+        md5 = "a535cf97a9e8e7d8ed92f3138c57a02d";
       };
 
       propagatedBuildInputs = [ _oauth2client pyyaml requests2 keyring _keyringsalt _clickclick _stups-tokens _stups-cli-support];
@@ -147,10 +147,10 @@ let
     };
 
     _stups-senza = with python35Packages; buildPythonApplication rec {
-      name = "stups-senza-2.1.57";
+      name = "stups-senza-2.1.66";
       src = fetchurl {
         url = "https://pypi.io/packages/source/s/stups-senza/${name}.tar.gz";
-        md5 = "e3ba4301fee1f01416f1da2062cbba94";
+        md5 = "f2e660fe94b563baed7eb91dac0086ab";
       };
       propagatedBuildInputs = [ _dns _pystache pyyaml _stups-pierone pytest arrow botocore boto3 docutils raven ];
       doCheck = false;
@@ -242,31 +242,51 @@ let
     };
 
     _zaws = with python35Packages; buildPythonApplication rec {
-      name = "zalando-aws-cli-1.1.2";
+      name = "zalando-aws-cli-1.1.4";
       src = fetchurl {
         url = "https://pypi.io/packages/source/z/zalando-aws-cli/${name}.tar.gz";
-        md5 = "f78d22b9f1700a8537caf6a5d6ef69ec";
+        md5 = "8139277eb05ce0034111199716943f78";
       };
       propagatedBuildInputs = [ pyyaml _clickclick _pyjwt _stups-zign ];
+      doCheck = false;
+    };
+
+    _kubectl = with python35Packages; buildPythonApplication rec {
+      name = "zalando-kubectl-0.23";
+      src = fetchurl {
+        url = "https://pypi.io/packages/source/z/zalando-kubectl/${name}.tar.gz";
+        md5 = "33440a62a7870170fc26d93c12461a7a";
+      };
+      propagatedBuildInputs = [ pyyaml _clickclick _stups-zign _stups-cli-support requests2 ];
+      doCheck = false;
+    };
+
+    _deploycli = with python35Packages; buildPythonApplication rec {
+      name = "zalando-deploy-cli-0.21";
+      src = fetchurl {
+        url = "https://pypi.io/packages/source/z/zalando-deploy-cli/${name}.tar.gz";
+        md5 = "5e04dfa36b0fbed27e974d9f4a26714f";
+      };
+      propagatedBuildInputs = [ _clickclick _stups-zign _stups-pierone _pystache _kubectl requests2 ];
       doCheck = false;
     };
   };
 
 in with dependencies; buildPythonApplication rec {
   name = "stups-${version}";
-  version = "1.0.12";
+  version = "1.1.14";
 
   disabled = !isPy3K;
 
   src = fetchurl {
     url = "https://pypi.io/packages/source/s/stups/${name}.tar.gz";
-    md5 = "6002847d143ead0cc82f952f9c8d1b4e";
+    md5 = "fd38949a52d1272609ef7af2a52c3cf0";
   };
 
   doCheck = false;
 
-  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource _zaws ];
-  propagatedUserEnvPkgs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource _zaws ];
+  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource _zaws _kubectl _deploycli ];
+  propagatedUserEnvPkgs = propagatedBuildInputs;
 
   meta = {
     homepage = "https://github.com/zalando-stups/stups-cli";
