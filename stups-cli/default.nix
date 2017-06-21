@@ -11,8 +11,8 @@ let
     _dns = with python35Packages; buildPythonPackage rec {
       name = "dnspython-1.15.0";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/d/dnspython/${name}.zip";
-        md5 = "05d33ffb5d8f35ae0474bb952778a344";
+        url    = "https://pypi.io/packages/source/d/dnspython/${name}.zip";
+        sha256 = "40f563e1f7a7b80dc5a4e76ad75c23da53d62f1e15e6e517293b04e1f84ead7c";
       };
       doCheck = false;
     };
@@ -20,8 +20,8 @@ let
     _clickclick = with python35Packages; buildPythonPackage rec {
       name = "clickclick-1.2.1";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/c/clickclick/${name}.tar.gz";
-        md5 = "bd7e136f0ed3516589795be5c60dc386";
+        url    = "https://pypi.io/packages/source/c/clickclick/${name}.tar.gz";
+        sha256 = "22eedfce2499d7a8c5b8c868fc93a495eb74bf7b753a6cb9ed2aa6a32a3ddd05";
       };
       propagatedBuildInputs = [ click pyyaml ];
       doCheck = false;
@@ -30,8 +30,8 @@ let
     _keyringsalt = with python35Packages; buildPythonPackage rec {
       name = "keyrings.alt-1.1.1";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/k/keyrings.alt/${name}.tar.gz";
-        md5 = "8571b04032dce5e2e9ed331a82216c15";
+        url    = "https://pypi.io/packages/source/k/keyrings.alt/${name}.tar.gz";
+        sha256 = "2f1a55849504644795076291bcc66a7266e0388dea13fe23a89d25c99e355d22";
       };
       buildInputs = [ mock ];
       propagatedBuildInputs = [ libffi openssl _cryptography ];
@@ -41,8 +41,8 @@ let
     _cryptography = with python35Packages; buildPythonPackage rec {
       name = "cryptography-1.7.1";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/c/cryptography/${name}.tar.gz";
-        md5 = "2f63dee6ace602d1d20d1995f8538015";
+        url    = "https://pypi.io/packages/source/c/cryptography/${name}.tar.gz";
+        sha256 = "953fef7d40a49a795f4d955c5ce4338abcec5dea822ed0414ed30348303fdb4c";
       };
       buildInputs = [ pkgs.openssl pretend _cryptography-vectors iso8601 pyasn1 pytest_29
                       hypothesis pytz];
@@ -53,16 +53,16 @@ let
     _cryptography-vectors = with python35Packages; buildPythonPackage rec {
       name = "cryptography_vectors-1.7.1";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/c/cryptography-vectors/${name}.tar.gz";
-        md5 = "4e6b8bfa8285a67f2aa1e0af5d2834d6";
+        url    = "https://pypi.io/packages/source/c/cryptography-vectors/${name}.tar.gz";
+        sha256 = "47e91b70bbf6852cb96a478cb715ca9234e5ff049c1956088c45c9f738f955f4";
       };
     };
 
     _stups-tokens = with python35Packages; buildPythonPackage rec {
-      name = "stups-tokens-1.0.18";
+      name = "stups-tokens-1.1.19";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-tokens/${name}.tar.gz";
-        md5 = "f046fed5865601c05be9514c3a1d5f88";
+        url    = "https://pypi.io/packages/source/s/stups-tokens/${name}.tar.gz";
+        sha256 = "7830ad83ccbfd52a9734608ffcefcca917137ce9480cc91a4fbd321a4aca3160";
       };
       propagatedBuildInputs = [ requests2 ];
       doCheck = false;
@@ -71,8 +71,8 @@ let
     _stups-cli-support = with python35Packages; buildPythonPackage rec {
        name = "stups-cli-support-1.1.15";
        src = fetchurl {
-         url = "https://pypi.io/packages/source/s/stups-cli-support/${name}.tar.gz";
-         md5 = "473a3bbdc453404d81251121a31daff8";
+         url    = "https://pypi.io/packages/source/s/stups-cli-support/${name}.tar.gz";
+         sha256 = "71a905f80fc63277ffda84135bd22d1f2cb4d43fc54b9aea60a5a35c492c64e5";
        };
        propagatedBuildInputs = [ pyyaml _dns requests2 _clickclick ];
        doCheck = false;
@@ -82,8 +82,8 @@ let
       name = "oauth2client-4.0.0";
 
       src = pkgs.fetchurl {
-        url = "mirror://pypi/o/oauth2client/${name}.tar.gz";
-        md5 = "7969836a49e6743ecd746997b2025926";
+        url    = "mirror://pypi/o/oauth2client/${name}.tar.gz";
+        sha256 = "80be5420889694634b8517b4acd3292ace881d9d1aa9d590d37ec52faec238c7";
       };
 
       propagatedBuildInputs = [ six httplib2 pyasn1-modules rsa ];
@@ -97,10 +97,10 @@ let
     };
 
     _stups-zign = with python35Packages; buildPythonApplication rec {
-      name = "stups-zign-1.1.28";
+      name = "stups-zign-1.1.30";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-zign/${name}.tar.gz";
-        md5 = "a535cf97a9e8e7d8ed92f3138c57a02d";
+        url    = "https://pypi.io/packages/source/s/stups-zign/${name}.tar.gz";
+        sha256 = "a05ce6f10b07265f2121354e4287a4c3716cfe6233093a5a1607d8745642cfd2";
       };
 
       propagatedBuildInputs = [ _oauth2client pyyaml requests2 keyring _keyringsalt _clickclick _stups-tokens _stups-cli-support];
@@ -108,10 +108,10 @@ let
     };
 
     _stups-pierone = with python35Packages; buildPythonApplication rec {
-      name = "stups-pierone-1.0.38";
+      name = "stups-pierone-1.1.27";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-pierone/${name}.tar.gz";
-        md5 = "f5c18149e07dd854248102fab57c24d2";
+        url    = "https://pypi.io/packages/source/s/stups-pierone/${name}.tar.gz";
+        sha256 = "fee665921ae1eb0821739221355ac80a42dd3f1b8dd65e6d30b6e928e87941e9";
       };
       propagatedBuildInputs = [ pyyaml requests2 _stups-zign ];
       doCheck = false;
@@ -120,8 +120,8 @@ let
     _aws-saml-login = with python35Packages; buildPythonApplication rec {
       name = "aws-saml-login-1.0.11";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/a/aws-saml-login/${name}.tar.gz";
-        md5 = "7ae887b616105346035848fe4dc0f57b";
+        url    = "https://pypi.io/packages/source/a/aws-saml-login/${name}.tar.gz";
+        sha256 = "2cb5b50d3ac696a94dcc934abc5c3d81f7d9da44915250eea6aa57424dac9111";
       };
       propagatedBuildInputs = [ beautifulsoup4 boto3 docutils ];
       doCheck = false;
@@ -130,8 +130,8 @@ let
     _stups-mai = with python35Packages; buildPythonApplication rec {
       name = "stups-mai-1.0.10";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-mai/${name}.tar.gz";
-        md5 = "f55b8d5fbbd84505886bda1b81002fb2";
+        url    = "https://pypi.io/packages/source/s/stups-mai/${name}.tar.gz";
+        sha256 = "147f45544ce1f3e1c2003490b0143e52ce35f90ac1f692941a4c7c91013a2d8a";
       };
       propagatedBuildInputs = [ _clickclick _keyringsalt _aws-saml-login keyring _cryptography ];
       doCheck = false;
@@ -140,17 +140,17 @@ let
     _pystache = with python35Packages; buildPythonPackage rec {
       name = "pystache-0.5.4";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/p/pystache/${name}.tar.gz";
-        md5 = "485885e67a0f6411d5252e69b20a35ca";
+        url    = "https://pypi.io/packages/source/p/pystache/${name}.tar.gz";
+        sha256 = "f7bbc265fb957b4d6c7c042b336563179444ab313fb93a719759111eabd3b85a";
       };
       doCheck = false;
     };
 
     _stups-senza = with python35Packages; buildPythonApplication rec {
-      name = "stups-senza-2.1.66";
+      name = "stups-senza-2.1.77";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-senza/${name}.tar.gz";
-        md5 = "f2e660fe94b563baed7eb91dac0086ab";
+        url    = "https://pypi.io/packages/source/s/stups-senza/${name}.tar.gz";
+        sha256 = "d28739692735d5116a65fc48a37252447c542f835ea206ec52b2e00e9251c417";
       };
       propagatedBuildInputs = [ _dns _pystache pyyaml _stups-pierone pytest arrow botocore boto3 docutils raven ];
       doCheck = false;
@@ -163,40 +163,40 @@ let
     };
 
     _stups-piu = with python35Packages; buildPythonApplication rec {
-      name = "stups-piu-1.0.15";
+      name = "stups-piu-1.1.12";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-piu/${name}.tar.gz";
-        md5 = "2482295bce977e2c20a1179888b6a974";
+        url    = "https://pypi.io/packages/source/s/stups-piu/${name}.tar.gz";
+        sha256 = "819eb5a14fa0f74d04ed6e25804cde90ef386bf0a6d9b691839eea0637181d11";
       };
       propagatedBuildInputs = [ pyyaml botocore boto3 docutils _stups-zign pyperclip ];
       doCheck = false;
     };
 
     _stups-kio = with python35Packages; buildPythonApplication rec {
-      name = "stups-kio-0.1.13";
+      name = "stups-kio-0.1.18";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-kio/${name}.tar.gz";
-        md5 = "002b55e872c458f1552ecd090ca35b27";
+        url    = "https://pypi.io/packages/source/s/stups-kio/${name}.tar.gz";
+        sha256 = "a97be61b4b9a13718d0ca397a2bc2c48d5045e840f029dae4a5556c8a24666a6";
       };
       propagatedBuildInputs = [ requests2 _clickclick _stups-cli-support _stups-zign ];
       doCheck = false;
     };
 
     _stups-fullstop = with python35Packages; buildPythonApplication rec {
-      name = "stups-fullstop-1.0.29";
+      name = "stups-fullstop-1.1.28";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-fullstop/${name}.tar.gz";
-        md5 = "32c3da93d1b665e558561396eb412530";
+        url    = "https://pypi.io/packages/source/s/stups-fullstop/${name}.tar.gz";
+        sha256 = "b58c571b3826bdc66c84875a89fb1e043ede52af41d9bbcb206a74b3cc4fca33";
       };
       propagatedBuildInputs = [ _clickclick _stups-cli-support _stups-zign ];
       doCheck = false;
     };
 
     _stups-berry = with python35Packages; buildPythonApplication rec {
-      name = "stups-berry-1.0.25";
+      name = "stups-berry-1.0.27";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/stups-berry/${name}.tar.gz";
-        md5 = "15113351a8fe13a58b7e985e36c0ce5c";
+        url    = "https://pypi.io/packages/source/s/stups-berry/${name}.tar.gz";
+        sha256 = "32ff222bfc9b234725b01b6122976303dfca1bb47aefc177c41773e9d501bc06";
       };
       propagatedBuildInputs = [ pyyaml boto3 _dns docutils ];
       doCheck = false;
@@ -206,10 +206,10 @@ let
     };
 
     _scmsource = with python35Packages; buildPythonApplication rec {
-      name = "scm-source-1.0.9";
+      name = "scm-source-1.0.10";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/s/scm-source/${name}.tar.gz";
-        md5 = "18db62d03076bd574602713535e46fb1";
+        url    = "https://pypi.io/packages/source/s/scm-source/${name}.tar.gz";
+        sha256 = "df7375bb1b62aeb8461d2046f42e61a14b0209fff72b35fb5b7dcf45e30267d0";
       };
       propagatedBuildInputs = [ pyyaml _clickclick ];
       doCheck = false;
@@ -229,7 +229,9 @@ let
       };
   
       propagatedBuildInputs = [ pycrypto ecdsa ];
-  
+
+      doCheck = false;
+
       meta = {
         description = "JSON Web Token implementation in Python";
         longDescription = "A Python implementation of JSON Web Token draft 01";
@@ -242,30 +244,30 @@ let
     };
 
     _zaws = with python35Packages; buildPythonApplication rec {
-      name = "zalando-aws-cli-1.1.4";
+      name = "zalando-aws-cli-1.1.6";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/z/zalando-aws-cli/${name}.tar.gz";
-        md5 = "8139277eb05ce0034111199716943f78";
+        url    = "https://pypi.io/packages/source/z/zalando-aws-cli/${name}.tar.gz";
+        sha256 = "f925ec28cf36751a0842ab86925c0bc9cf2a48191d059e4acec340d404a90063";
       };
       propagatedBuildInputs = [ pyyaml _clickclick _pyjwt _stups-zign ];
       doCheck = false;
     };
 
     _kubectl = with python35Packages; buildPythonApplication rec {
-      name = "zalando-kubectl-0.23";
+      name = "zalando-kubectl-1.6.0";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/z/zalando-kubectl/${name}.tar.gz";
-        md5 = "33440a62a7870170fc26d93c12461a7a";
+        url    = "https://pypi.io/packages/source/z/zalando-kubectl/${name}.tar.gz";
+        sha256 = "ff195847c7377a63c53b91ff086ae81c028ae94abc1ba21072335c7252261ea3";
       };
       propagatedBuildInputs = [ pyyaml _clickclick _stups-zign _stups-cli-support requests2 ];
       doCheck = false;
     };
 
     _deploycli = with python35Packages; buildPythonApplication rec {
-      name = "zalando-deploy-cli-0.21";
+      name = "zalando-deploy-cli-0.28";
       src = fetchurl {
-        url = "https://pypi.io/packages/source/z/zalando-deploy-cli/${name}.tar.gz";
-        md5 = "5e04dfa36b0fbed27e974d9f4a26714f";
+        url    = "https://pypi.io/packages/source/z/zalando-deploy-cli/${name}.tar.gz";
+        sha256 = "f4a57e9ed6c69835430cab45e9d6e868e0d89a5005c546286866624753e5a00f";
       };
       propagatedBuildInputs = [ _clickclick _stups-zign _stups-pierone _pystache _kubectl requests2 ];
       doCheck = false;
@@ -274,13 +276,13 @@ let
 
 in with dependencies; buildPythonApplication rec {
   name = "stups-${version}";
-  version = "1.1.14";
+  version = "1.1.15";
 
   disabled = !isPy3K;
 
   src = fetchurl {
-    url = "https://pypi.io/packages/source/s/stups/${name}.tar.gz";
-    md5 = "fd38949a52d1272609ef7af2a52c3cf0";
+    url    = "https://pypi.io/packages/source/s/stups/${name}.tar.gz";
+    sha256 = "be969b1d7dd0b15f1bd6870bd63bdfe8f766c674188bd907d69ccb9d114f4b0c";
   };
 
   doCheck = false;
