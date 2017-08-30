@@ -272,6 +272,35 @@ let
       propagatedBuildInputs = [ _clickclick _stups-zign _stups-pierone _pystache _kubectl requests2 ];
       doCheck = false;
     };
+
+    _easydict = buildPythonPackage rec {
+      name = "${pname}-${version}";
+      pname = "easydict";
+      version = "1.7";
+    
+      src = fetchPypi {
+        inherit pname version;
+        sha256 = "1xpnwjdw4x5kficjgcajqcal6bxcb0ax8l6hdkww9fp6lrh28x8v";
+      };
+    
+      docheck = false; # No tests in archive
+    
+      meta = {
+        homepage = https://github.com/makinacorpus/easydict;
+        license = with stdenv.lib; licenses.lgpl3;
+        description = "Access dict values as attributes (works recursively)";
+      };
+    };
+
+    _zmonCli = with python35Packages; buildPythonApplication rec {
+      name = "zmon-cli-1.1.50";
+      src = fetchurl {
+        url    = "https://pypi.io/packages/source/z/zmon-cli/${name}.tar.gz";
+        sha256 = "9ae39183acc1ba2c5940772370b92596fdd9db8a91da9ec35be1e28607a4720b";
+      };
+      propagatedBuildInputs = [ _clickclick _stups-zign requests2 pyyaml _easydict ];
+      doCheck = false;
+    };
   };
 
 in with dependencies; buildPythonApplication rec {
@@ -287,7 +316,7 @@ in with dependencies; buildPythonApplication rec {
 
   doCheck = false;
 
-  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource _zaws _kubectl _deploycli ];
+  propagatedBuildInputs = [ _stups-zign _stups-pierone _stups-mai _stups-senza _stups-piu _stups-kio _stups-fullstop _stups-berry _scmsource _zaws _kubectl _deploycli _zmonCli];
   propagatedUserEnvPkgs = propagatedBuildInputs;
 
   meta = {
