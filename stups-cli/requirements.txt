@@ -1,0 +1,2 @@
+zalando-kubectl==1.7.6.post3
+stups==1.1.15
