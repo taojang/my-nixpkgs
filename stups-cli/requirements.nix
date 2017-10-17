@@ -134,8 +134,8 @@ let
 
 
     "botocore" = python.mkDerivation {
-      name = "botocore-1.7.25";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/26/fc/9f28dc538d3af815afe18b1afc540fe5b163d1143d7646302bc56a9e4448/botocore-1.7.25.tar.gz"; sha256 = "8d834b296faebf55d0be6d63a2a4ee9e30062f70b1c3e0bb5d97286a7854c5cb"; };
+      name = "botocore-1.7.28";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/89/ca/ed218c65ed62aa867545a3e6e8b0e0c9aeb124b6d8f99eda5347f064755b/botocore-1.7.28.tar.gz"; sha256 = "eb99d0133d5760790304d544feb07facb4df112118f29c24ce0db36c1758dc7a"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -270,6 +270,25 @@ let
         homepage = "";
         license = licenses.mit;
         description = "JSON Matching Expressions";
+      };
+    };
+
+
+
+    "kmsclient" = python.mkDerivation {
+      name = "kmsclient-0.3";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/45/ee/c88b2448cbc02e6075248653bc28ec3605e209ae6c13d53feb938055a4e7/kmsclient-0.3.tar.gz"; sha256 = "243b570b656e21720d1b85eb41eafa4f411ef96d5ecb68d4ee5b709f7962e7da"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."boto3"
+      self."clickclick"
+      self."pyperclip"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.asl20;
+        description = "For encrypting and decrypting using a specific key from amazons kms";
       };
     };
 
@@ -577,7 +596,6 @@ let
         license = licenses.asl20;
         description = "AWS Cloud Formation deployment CLI";
       };
-
       # typing is part of python35
       patchPhase = ''
         sed -i 's/[\d128-\d255]//g' README.rst
