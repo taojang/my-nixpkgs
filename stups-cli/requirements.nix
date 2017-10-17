@@ -134,8 +134,8 @@ let
 
 
     "botocore" = python.mkDerivation {
-      name = "botocore-1.7.28";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/89/ca/ed218c65ed62aa867545a3e6e8b0e0c9aeb124b6d8f99eda5347f064755b/botocore-1.7.28.tar.gz"; sha256 = "eb99d0133d5760790304d544feb07facb4df112118f29c24ce0db36c1758dc7a"; };
+      name = "botocore-1.7.29";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/42/28/68eab4db861d4dbd2ac4d6108a87c06397ab165bdbc404fa39275d2a7ad0/botocore-1.7.29.tar.gz"; sha256 = "e07e9f47ad73cb615bbfdfd3b6f05243b742feb28083bb84fffb2aa192053278"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -240,6 +240,21 @@ let
         homepage = "";
         license = licenses.publicDomain;
         description = "Docutils -- Python Documentation Utilities";
+      };
+    };
+
+
+
+    "easydict" = python.mkDerivation {
+      name = "easydict-1.7";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/df/e0/021f827dd5c11ac32c89f4b6bd0e3eddfd62d544112c298bf0b13e6b0def/easydict-1.7.tar.gz"; sha256 = "1b752460a6e6bac4f96cd050d41558ac2f4315c352b1275974b374c29be4f6f6"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = "LPGL, see LICENSE file.";
+        description = "Access dict values as attributes (works recursively).";
       };
     };
 
@@ -735,6 +750,27 @@ let
         homepage = "";
         license = licenses.asl20;
         description = "Kubectl wrapper in Python with OAuth token auth";
+      };
+    };
+
+
+
+    "zmon-cli" = python.mkDerivation {
+      name = "zmon-cli-1.1.54";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/5c/b3/fb78a7048812eb29b8b4dd4af308e14d3513a7692bc663be41fa68b6875e/zmon-cli-1.1.54.tar.gz"; sha256 = "28be3eae1301636452e6fcd5d912e3a2f65f6b77d51592a18d08bb32dbef8e4a"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."PyYAML"
+      self."clickclick"
+      self."easydict"
+      self."requests"
+      self."stups-zign"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "";
+        license = licenses.asl20;
+        description = "Command line interface for Zalando's monitoring tool ZMON";
       };
     };
 
