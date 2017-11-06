@@ -27,7 +27,7 @@ let
     let
       pkgs = builtins.removeAttrs pkgs' ["__unfix__"];
       interpreter = pythonPackages.buildPythonPackage {
-        name = "python3-interpreter";
+        name = "zalando-cli-stuff";
         buildInputs = [ makeWrapper ] ++ (builtins.attrValues pkgs);
         buildCommand = ''
           mkdir -p $out/bin
@@ -134,8 +134,8 @@ let
 
 
     "botocore" = python.mkDerivation {
-      name = "botocore-1.7.29";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/42/28/68eab4db861d4dbd2ac4d6108a87c06397ab165bdbc404fa39275d2a7ad0/botocore-1.7.29.tar.gz"; sha256 = "e07e9f47ad73cb615bbfdfd3b6f05243b742feb28083bb84fffb2aa192053278"; };
+      name = "botocore-1.7.39";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c4/ab/d1d0eb1611f21d306c3812e905d97668b09791a2a293a36d6e1317a2842b/botocore-1.7.39.tar.gz"; sha256 = "28168c86cdb8847eaa0d53551ce9cbcac83f0d59d225c4281f43515b7dd1980d"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -153,8 +153,8 @@ let
 
 
     "certifi" = python.mkDerivation {
-      name = "certifi-2017.7.27.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/20/d0/3f7a84b0c5b89e94abbd073a5f00c7176089f526edb056686751d5064cbd/certifi-2017.7.27.1.tar.gz"; sha256 = "40523d2efb60523e113b44602298f0960e900388cf3bb6043f645cf57ea9e3f5"; };
+      name = "certifi-2017.11.5";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/23/3f/8be01c50ed24a4bd6b8da799839066ce0288f66f5e11f0367323467f0cbc/certifi-2017.11.5.tar.gz"; sha256 = "5ec74291ca1136b40f0379e1128ff80e866597e4e2c1e755739a913bbc3613c0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -325,8 +325,8 @@ let
 
 
     "pyperclip" = python.mkDerivation {
-      name = "pyperclip-1.5.27";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/7b/a5/48eaa1f2d77f900679e9759d2c9ab44895e66e9612f7f6b5333273b68f29/pyperclip-1.5.27.zip"; sha256 = "a3cb6df5d8f1557ca8fc514d94fabf50dc5a97042c90e5ba4f3611864fed3fc5"; };
+      name = "pyperclip-1.5.32";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/a9/091fc2c95d9608b55184397f8d2ff43b4c9dfc454ca3f346827eb179ce09/pyperclip-1.5.32.tar.gz"; sha256 = "e6280f3f32b0dd83abc36ed90ed53bf183d18b0ac9e08b94d4652da23b6b4d9f"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
@@ -389,8 +389,8 @@ let
 
 
     "raven" = python.mkDerivation {
-      name = "raven-6.2.1";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c1/97/38e74c7521737c965281b43440b274955e211b1d5319c256d8525d9d2cad/raven-6.2.1.tar.gz"; sha256 = "c0a30bcc3e3206059f79656d80362ce080b1c991c95d867edce559a7294570fe"; };
+      name = "raven-6.3.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/e8/b0/27886f69cdb4d9f6265bba1c4973bb5371b060272a5795c511d8839a6028/raven-6.3.0.tar.gz"; sha256 = "f3e465a545dcdb6a387d1fcb199d08f786ba3732d7ce6aa681718b04da6aedf1"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -526,8 +526,8 @@ let
 
 
     "stups-kio" = python.mkDerivation {
-      name = "stups-kio-0.1.18";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/e4/6f/9c0aa99f401d4dbc814b675a1e56f95a906aa90c551d891573c5a3649d37/stups-kio-0.1.18.tar.gz"; sha256 = "a97be61b4b9a13718d0ca397a2bc2c48d5045e840f029dae4a5556c8a24666a6"; };
+      name = "stups-kio-0.1.19";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/63/b2/b626fe126ddc643c00b05c17e1c60c3e53f6cae4bf381031dca3cc23304b/stups-kio-0.1.19.tar.gz"; sha256 = "0742896ba69084226635604bf787c2aed51e304e6eaf3cf28e338388f37aa0a7"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -539,7 +539,7 @@ let
       meta = with pkgs.stdenv.lib; {
         homepage = "";
         license = licenses.asl20;
-        description = "Simple command line utility to manage Kio applications and application versions";
+        description = "Simple command line utility to manage Kio applications";
       };
     };
 
@@ -566,8 +566,8 @@ let
 
 
     "stups-piu" = python.mkDerivation {
-      name = "stups-piu-1.1.12";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/dc/ef/5cd7a5120ee8bfc205d72d1d58dd26f789e9d9608fb723cac53f629b8b35/stups-piu-1.1.12.tar.gz"; sha256 = "819eb5a14fa0f74d04ed6e25804cde90ef386bf0a6d9b691839eea0637181d11"; };
+      name = "stups-piu-1.1.16";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/20/a8/45136321c7d8aa7edaa08b6922cb5d22ea6140a9a80b5dbd21fcbfca91bd/stups-piu-1.1.16.tar.gz"; sha256 = "e2fa2e8e23a6ea5ba7e461d747ae7322f10d72f72a9c52cbdd53e1ff5965bb53"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -611,6 +611,7 @@ let
         license = licenses.asl20;
         description = "AWS Cloud Formation deployment CLI";
       };
+
       # typing is part of python35
       patchPhase = ''
         sed -i 's/[\d128-\d255]//g' README.rst
@@ -735,8 +736,8 @@ let
 
 
     "zalando-kubectl" = python.mkDerivation {
-      name = "zalando-kubectl-1.7.6.post7";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/56/d0/ad1d753e42957ca46e70648b3d9d168bbab5141285a6562ae641a4875591/zalando-kubectl-1.7.6.post7.tar.gz"; sha256 = "8ad8190b51ef87fdfe4ee88602e8ccf16f9b20b60453053357ae835241b1b5d1"; };
+      name = "zalando-kubectl-1.7.6.post8";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/86/63/94fb4feaa6fdf2f804f8ac1061d9d592a5bcf8ac751fa5075ffb423b52ec/zalando-kubectl-1.7.6.post8.tar.gz"; sha256 = "566408ab160ba774f84179b7fab789732f804f3d200eb8ec7e3c550d6ae75fdf"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
