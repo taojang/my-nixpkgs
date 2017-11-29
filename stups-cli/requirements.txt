@@ -2,3 +2,4 @@ zalando-kubectl==1.7.6.post8
 stups==1.1.15
 kmsclient==0.3
 zmon-cli==1.1.54
+scm-source==1.0.11

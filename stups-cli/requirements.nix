@@ -1,4 +1,4 @@
-# generated using pypi2nix tool (version: 1.8.0)
+# generated using pypi2nix tool (version: 1.8.1)
 # See more at: https://github.com/garbas/pypi2nix
 #
 # COMMAND:
@@ -18,6 +18,15 @@ let
     inherit pkgs;
     inherit (pkgs) stdenv;
     python = pkgs.python3;
+    # patching pip so it does not try to remove files when running nix-shell
+    overrides =
+      self: super: {
+        bootstrapped-pip = super.bootstrapped-pip.overrideDerivation (old: {
+          patchPhase = old.patchPhase + ''
+            sed -i               -e "s|paths_to_remove.remove(auto_confirm)|#paths_to_remove.remove(auto_confirm)|"                -e "s|self.uninstalled = paths_to_remove|#self.uninstalled = paths_to_remove|"                  $out/${pkgs.python35.sitePackages}/pip/req/req_install.py
+          '';
+        });
+      };
   };
 
   commonBuildInputs = with pkgs; [ which ];
@@ -46,6 +55,7 @@ let
           done
           pushd $out/bin
           ln -s ${pythonPackages.python.executable} python
+          ln -s ${pythonPackages.python.executable}               python3
           popd
         '';
         passthru.interpreter = pythonPackages.python;
@@ -56,7 +66,7 @@ let
       mkDerivation = pythonPackages.buildPythonPackage;
       packages = pkgs;
       overrideDerivation = drv: f:
-        pythonPackages.buildPythonPackage (drv.drvAttrs // f drv.drvAttrs);
+        pythonPackages.buildPythonPackage (drv.drvAttrs // f drv.drvAttrs //                                            { meta = drv.meta; });
       withPackages = pkgs'':
         withPackages (pkgs // pkgs'');
     };
@@ -74,7 +84,7 @@ let
       self."pytest"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://github.com/jpadilla/pyjwt";
         license = licenses.mit;
         description = "JSON Web Token implementation in Python";
       };
@@ -89,7 +99,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://pyyaml.org/wiki/PyYAML";
         license = licenses.mit;
         description = "YAML parser and emitter for Python";
       };
@@ -98,15 +108,15 @@ let
 
 
     "arrow" = python.mkDerivation {
-      name = "arrow-0.10.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/54/db/76459c4dd3561bbe682619a5c576ff30c42e37c2e01900ed30a501957150/arrow-0.10.0.tar.gz"; sha256 = "805906f09445afc1f0fc80187db8fe07670e3b25cdafa09b8d8ac264a8c0c722"; };
+      name = "arrow-0.12.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/90/48/7ecfce4f2830f59dfacbb2b5a31e3ff1112b731a413724be40f57faa4450/arrow-0.12.0.tar.gz"; sha256 = "a15ecfddf334316e3ac8695e48c15d1be0d6038603b33043930dcf0e675c86ee"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
       self."python-dateutil"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/crsmithdev/arrow/";
         license = licenses.asl20;
         description = "Better dates and times for Python";
       };
@@ -114,9 +124,24 @@ let
 
 
 
+    "attrs" = python.mkDerivation {
+      name = "attrs-17.3.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/3f/a4/d0db68156abbdee228ce69a786ecb512da40b36b1289aadb9e3f9fd45121/attrs-17.3.0.tar.gz"; sha256 = "c78f53e32d7cf36d8597c8a2c7e3c0ad210f97b9509e152e4c37fa80869f823c"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://www.attrs.org/";
+        license = licenses.mit;
+        description = "Classes Without Boilerplate";
+      };
+    };
+
+
+
     "boto3" = python.mkDerivation {
-      name = "boto3-1.4.7";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b6/7c/b9caa157b514e0a456286172862428a83814e4eda114ea1e80267de85378/boto3-1.4.7.tar.gz"; sha256 = "f79f77dca2280f7780f39d72a5088f4cf2b626c0921e7185ed6ac17abfdd7e6c"; };
+      name = "boto3-1.4.8";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/7b/82/ff2cc1627733040b19369d5d561331b378150e02312f1d1b9424a91ae9d0/boto3-1.4.8.tar.gz"; sha256 = "332c6a17fd695581dd6f9ed825ce13c2d5ee3a6f5e1b079bed0ff7293809faf0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -125,7 +150,7 @@ let
       self."s3transfer"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/boto/boto3";
         license = licenses.asl20;
         description = "The AWS SDK for Python";
       };
@@ -134,8 +159,8 @@ let
 
 
     "botocore" = python.mkDerivation {
-      name = "botocore-1.7.39";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/c4/ab/d1d0eb1611f21d306c3812e905d97668b09791a2a293a36d6e1317a2842b/botocore-1.7.39.tar.gz"; sha256 = "28168c86cdb8847eaa0d53551ce9cbcac83f0d59d225c4281f43515b7dd1980d"; };
+      name = "botocore-1.8.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4e/b2/2d63e159ad25aebfdccd1c16225b5b00815d0e56fbd5aa243588008f3dc1/botocore-1.8.2.tar.gz"; sha256 = "a579b4006b3aeeabc83ac0d9fb2604aa71beda6ddc894f0619a755281af55538"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -144,7 +169,7 @@ let
       self."python-dateutil"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/boto/botocore";
         license = licenses.asl20;
         description = "Low-level, data-driven core of boto 3.";
       };
@@ -159,8 +184,8 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
-        license = "MPL-2.0";
+        homepage = "http://certifi.io/";
+        license = licenses.mpl20;
         description = "Python package for providing Mozilla's CA Bundle.";
       };
     };
@@ -174,7 +199,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/chardet/chardet";
         license = licenses.lgpl2;
         description = "Universal encoding detector for Python 2 and 3";
       };
@@ -189,7 +214,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://github.com/mitsuhiko/click";
         license = licenses.bsdOriginal;
         description = "A simple wrapper around optparse for powerful command line utilities.";
       };
@@ -207,7 +232,7 @@ let
       self."click"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando/python-clickclick";
         license = licenses.asl20;
         description = "Click utility functions";
       };
@@ -222,7 +247,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://www.dnspython.org";
         license = licenses.bsdOriginal;
         description = "DNS toolkit";
       };
@@ -237,7 +262,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://docutils.sourceforge.net/";
         license = licenses.publicDomain;
         description = "Docutils -- Python Documentation Utilities";
       };
@@ -252,7 +277,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/makinacorpus/easydict";
         license = "LPGL, see LICENSE file.";
         description = "Access dict values as attributes (works recursively).";
       };
@@ -267,7 +292,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/kjd/idna";
         license = licenses.bsdOriginal;
         description = "Internationalized Domain Names in Applications (IDNA)";
       };
@@ -282,7 +307,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/jmespath/jmespath.py";
         license = licenses.mit;
         description = "JSON Matching Expressions";
       };
@@ -301,7 +326,7 @@ let
       self."pyperclip"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando/kmsclient";
         license = licenses.asl20;
         description = "For encrypting and decrypting using a specific key from amazons kms";
       };
@@ -309,14 +334,29 @@ let
 
 
 
-    "py" = python.mkDerivation {
-      name = "py-1.4.34";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/68/35/58572278f1c097b403879c1e9369069633d1cbad5239b9057944bb764782/py-1.4.34.tar.gz"; sha256 = "0f2d585d22050e90c7d293b6451c83db097df77871974d90efd5a30dc12fcde3"; };
+    "pluggy" = python.mkDerivation {
+      name = "pluggy-0.6.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/11/bf/cbeb8cdfaffa9f2ea154a30ae31a9d04a1209312e2919138b4171a1f8199/pluggy-0.6.0.tar.gz"; sha256 = "7f8ae7f5bdf75671a718d2daf0a64b7885f74510bcd98b1a0bb420eb9a9d0cff"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/pytest-dev/pluggy";
+        license = licenses.mit;
+        description = "plugin and hook calling mechanisms for python";
+      };
+    };
+
+
+
+    "py" = python.mkDerivation {
+      name = "py-1.5.2";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/90/e3/e075127d39d35f09a500ebb4a90afd10f9ef0a1d28a6d09abeec0e444fdd/py-1.5.2.tar.gz"; sha256 = "ca18943e28235417756316bfada6cd96b23ce60dd532642690dcfdaba988a76d"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [ ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "http://py.readthedocs.io/";
         license = licenses.mit;
         description = "library with cross-python path, ini-parsing, io, code, log facilities";
       };
@@ -325,13 +365,13 @@ let
 
 
     "pyperclip" = python.mkDerivation {
-      name = "pyperclip-1.5.32";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4d/a9/091fc2c95d9608b55184397f8d2ff43b4c9dfc454ca3f346827eb179ce09/pyperclip-1.5.32.tar.gz"; sha256 = "e6280f3f32b0dd83abc36ed90ed53bf183d18b0ac9e08b94d4652da23b6b4d9f"; };
+      name = "pyperclip-1.6.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/5b/06/86e3c6a55cacef0e4ec7c25379ff7fcd1a88fd939ecefd442b535c792fa4/pyperclip-1.6.0.tar.gz"; sha256 = "ce829433a9af640e08ee89b20f7c62132714bcc5d77df114044d0fccb8c3b3b8"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/asweigart/pyperclip";
         license = licenses.bsdOriginal;
         description = "A cross-platform clipboard module for Python. (only handles plain text for now)";
       };
@@ -346,7 +386,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://github.com/defunkt/pystache";
         license = licenses.mit;
         description = "Mustache for Python";
       };
@@ -355,15 +395,18 @@ let
 
 
     "pytest" = python.mkDerivation {
-      name = "pytest-3.2.3";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/53/d0/208853c09be8377e6d4de7c0df875ef7ef37189373d76a74b65b44e50528/pytest-3.2.3.tar.gz"; sha256 = "27fa6617efc2869d3e969a3e75ec060375bfb28831ade8b5cdd68da3a741dc3c"; };
+      name = "pytest-3.3.0";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/41/6f/ed63db45ad82db405c77c807d75d66311d385e1b6bf476ec46bde0c9462a/pytest-3.3.0.tar.gz"; sha256 = "6db1c070aa412c30647b6aeb13c55670f900cf00fbafa003cdde560c3f4a8d76"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
+      self."attrs"
+      self."pluggy"
       self."py"
+      self."six"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://pytest.org";
         license = licenses.mit;
         description = "pytest: simple powerful testing with Python";
       };
@@ -380,7 +423,7 @@ let
       self."six"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://dateutil.readthedocs.io";
         license = licenses.bsdOriginal;
         description = "Extensions to the standard Python datetime module";
       };
@@ -398,7 +441,7 @@ let
       self."requests"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/getsentry/raven-python";
         license = licenses.bsdOriginal;
         description = "Raven is a client for Sentry (https://getsentry.com)";
       };
@@ -418,7 +461,7 @@ let
       self."urllib3"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://python-requests.org";
         license = licenses.asl20;
         description = "Python HTTP for Humans.";
       };
@@ -435,9 +478,27 @@ let
       self."botocore"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/boto/s3transfer";
         license = licenses.asl20;
         description = "An Amazon S3 Transfer Manager";
+      };
+    };
+
+
+
+    "scm-source" = python.mkDerivation {
+      name = "scm-source-1.0.11";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/15/4f/880d17084cd774d93a3ba7f6dfa4837a8b838bfee699fe8db0de2ed6e38a/scm-source-1.0.11.tar.gz"; sha256 = "95777e83084f32665640746e02884a21892c6cb445c969cb9befe74919bd2c36"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."PyYAML"
+      self."clickclick"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/zalando-stups/python-scm-source";
+        license = licenses.asl20;
+        description = "CLI to generate scm-source.json";
       };
     };
 
@@ -450,7 +511,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "http://pypi.python.org/pypi/six/";
         license = licenses.mit;
         description = "Python 2 and 3 compatibility utilities";
       };
@@ -477,10 +538,16 @@ let
       self."zalando-kubectl"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/stups-cli";
         license = licenses.asl20;
         description = "STUPS meta package";
       };
+
+      # typing is part of python35
+      patchPhase = ''
+        sed -i 's/[\d128-\d255]//g' README.rst
+        sed -i 's/typing//g' requirements.txt
+      '';
     };
 
 
@@ -497,7 +564,7 @@ let
       self."requests"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/stups-cli-support";
         license = licenses.asl20;
         description = "STUPS CLI support library";
       };
@@ -517,7 +584,7 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/fullstop-cli";
         license = licenses.asl20;
         description = "Simple command line utility to view Fullstop violations";
       };
@@ -526,8 +593,8 @@ let
 
 
     "stups-kio" = python.mkDerivation {
-      name = "stups-kio-0.1.19";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/63/b2/b626fe126ddc643c00b05c17e1c60c3e53f6cae4bf381031dca3cc23304b/stups-kio-0.1.19.tar.gz"; sha256 = "0742896ba69084226635604bf787c2aed51e304e6eaf3cf28e338388f37aa0a7"; };
+      name = "stups-kio-0.1.20";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/14/be/7cddab47c31f47c5b5724c14fda79cfccde11b865322f60cb453519644db/stups-kio-0.1.20.tar.gz"; sha256 = "b5de8538eca0297696654da5d1c217edf9328c95ac69cdbff9a8ea23d3e8d0eb"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -537,7 +604,7 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/kio-cli";
         license = licenses.asl20;
         description = "Simple command line utility to manage Kio applications";
       };
@@ -557,7 +624,7 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/pierone-cli";
         license = licenses.asl20;
         description = "Pier One Docker registry CLI";
       };
@@ -580,7 +647,7 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/piu";
         license = licenses.asl20;
         description = "Command line client for \"even\" SSH access granting service";
       };
@@ -607,7 +674,7 @@ let
       self."typing"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/senza";
         license = licenses.asl20;
         description = "AWS Cloud Formation deployment CLI";
       };
@@ -630,7 +697,7 @@ let
       self."requests"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/python-tokens";
         license = licenses.asl20;
         description = "Python library to manage OAuth access tokens";
       };
@@ -651,7 +718,7 @@ let
       self."stups-tokens"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-stups/zign";
         license = licenses.asl20;
         description = "OAuth2 token management CLI";
       };
@@ -666,7 +733,7 @@ let
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [ ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://docs.python.org/3/library/typing.html";
         license = licenses.psfl;
         description = "Type Hints for Python";
       };
@@ -684,7 +751,7 @@ let
       self."idna"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://urllib3.readthedocs.io/";
         license = licenses.mit;
         description = "HTTP library with thread-safe connection pooling, file post, and more.";
       };
@@ -704,7 +771,7 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-incubator/zalando-aws-cli";
         license = licenses.asl20;
         description = "AWS login CLI";
       };
@@ -727,7 +794,7 @@ let
       self."zalando-kubectl"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-incubator/zalando-deploy-cli";
         license = licenses.mit;
         description = "UNKNOWN";
       };
@@ -748,7 +815,7 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando-incubator/zalando-kubectl";
         license = licenses.asl20;
         description = "Kubectl wrapper in Python with OAuth token auth";
       };
@@ -769,22 +836,26 @@ let
       self."stups-zign"
     ];
       meta = with pkgs.stdenv.lib; {
-        homepage = "";
+        homepage = "https://github.com/zalando/zmon";
         license = licenses.asl20;
         description = "Command line interface for Zalando's monitoring tool ZMON";
       };
     };
 
   };
-  overrides = import ./requirements_override.nix { inherit pkgs python; };
+  localOverridesFile = ./requirements_override.nix;
+  overrides = import localOverridesFile { inherit pkgs python; };
   commonOverrides = [
 
   ];
+  allOverrides =
+    (if (builtins.pathExists localOverridesFile)
+     then [overrides] else [] ) ++ commonOverrides;
 
 in python.withPackages
    (fix' (pkgs.lib.fold
             extends
             generated
-            ([overrides] ++ commonOverrides)
+            allOverrides
          )
    )
