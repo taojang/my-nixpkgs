@@ -1,6 +1,6 @@
 ## Senza patch
 
-add following to build description of `stups-senza`
+add following to build description of `stups-senza` and `stups-berry`
 
 ```nix
       # typing is part of python35

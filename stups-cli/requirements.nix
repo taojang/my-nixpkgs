@@ -159,8 +159,8 @@ let
 
 
     "botocore" = python.mkDerivation {
-      name = "botocore-1.8.2";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/4e/b2/2d63e159ad25aebfdccd1c16225b5b00815d0e56fbd5aa243588008f3dc1/botocore-1.8.2.tar.gz"; sha256 = "a579b4006b3aeeabc83ac0d9fb2604aa71beda6ddc894f0619a755281af55538"; };
+      name = "botocore-1.8.8";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a1/05/1621073bd549aa974e4c92366c41a562482cb357c93f0d2316984dddab42/botocore-1.8.8.tar.gz"; sha256 = "e348c14a5089fe43d5e953f82b9401c2ac4c42ceebd61d1bbaf49a224cb32dbc"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -395,8 +395,8 @@ let
 
 
     "pytest" = python.mkDerivation {
-      name = "pytest-3.3.0";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/41/6f/ed63db45ad82db405c77c807d75d66311d385e1b6bf476ec46bde0c9462a/pytest-3.3.0.tar.gz"; sha256 = "6db1c070aa412c30647b6aeb13c55670f900cf00fbafa003cdde560c3f4a8d76"; };
+      name = "pytest-3.3.1";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/fb/ee/ceb80b45e768e67ee848dfd4fc407a4ccfc6d93c904c49fad1e5495a079f/pytest-3.3.1.tar.gz"; sha256 = "cf8436dc59d8695346fcd3ab296de46425ecab00d64096cebe79fb51ecb2eb93"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -470,8 +470,8 @@ let
 
 
     "s3transfer" = python.mkDerivation {
-      name = "s3transfer-0.1.11";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a8/58/d264e95e1b19a811fc52ff41c95dafd9c70cc7457b658bc04d87dfad31de/s3transfer-0.1.11.tar.gz"; sha256 = "76f1f58f4a47e2c8afa135e2c76958806a3abbc42b721d87fd9d11409c75d979"; };
+      name = "s3transfer-0.1.12";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/b1/a6/24d960ee5f21eb2f9e2e938be44b9929bf9f85a570b9582c50c14e7c7ec7/s3transfer-0.1.12.tar.gz"; sha256 = "10891b246296e0049071d56c32953af05cea614dca425a601e4c0be35990121e"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -542,6 +542,26 @@ let
         license = licenses.asl20;
         description = "STUPS meta package";
       };
+    };
+
+
+
+    "stups-berry" = python.mkDerivation {
+      name = "stups-berry-1.0.28";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/01/81/2a3e118bd389f72e39dfd7402c2e594962b389746803f986786a51a2e21e/stups-berry-1.0.28.tar.gz"; sha256 = "5274817853e1584dc102f8ed0fec6e165c2b90f12b4a75af72fdf317292f61e2"; };
+      doCheck = commonDoCheck;
+      buildInputs = commonBuildInputs;
+      propagatedBuildInputs = [
+      self."PyYAML"
+      self."boto3"
+      self."dnspython"
+    ];
+      meta = with pkgs.stdenv.lib; {
+        homepage = "https://github.com/zalando-stups/berry";
+        license = licenses.asl20;
+        description = "Credentials distribution agent";
+      };
+
 
       # typing is part of python35
       patchPhase = ''
@@ -553,8 +573,8 @@ let
 
 
     "stups-cli-support" = python.mkDerivation {
-      name = "stups-cli-support-1.1.15";
-      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/44/82/28b6e73f2d5d78ee089eb06484f935d0668af01dec9d284ab2f1579ef15f/stups-cli-support-1.1.15.tar.gz"; sha256 = "71a905f80fc63277ffda84135bd22d1f2cb4d43fc54b9aea60a5a35c492c64e5"; };
+      name = "stups-cli-support-1.1.18";
+      src = pkgs.fetchurl { url = "https://pypi.python.org/packages/a2/37/1eb9e09c595161e9fb7d304f32025070d2daedb72dd9a0e5f5b2f04a393d/stups-cli-support-1.1.18.tar.gz"; sha256 = "3abad2a671b22c9a7f0f3e6553c11fdb63f1239d194505bf3340db47ba094ff0"; };
       doCheck = commonDoCheck;
       buildInputs = commonBuildInputs;
       propagatedBuildInputs = [
@@ -678,6 +698,7 @@ let
         license = licenses.asl20;
         description = "AWS Cloud Formation deployment CLI";
       };
+
 
       # typing is part of python35
       patchPhase = ''
