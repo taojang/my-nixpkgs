@@ -20,5 +20,6 @@ in pkgs.buildEnv {
     python.packages."zalando-aws-cli"
     python.packages."zalando-kubectl"
     python.packages."zalando-deploy-cli"
+    python.packages."zmon-cli"
   ];
 }
