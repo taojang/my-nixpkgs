@@ -21,5 +21,6 @@ in pkgs.buildEnv {
     python.packages."zalando-kubectl"
     python.packages."zalando-deploy-cli"
     python.packages."zmon-cli"
+    python.packages."scm-source"
   ];
 }
