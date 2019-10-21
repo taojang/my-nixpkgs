@@ -40,7 +40,7 @@ stups-senza==2.1.96
 stups-tokens==1.1.19
 stups-zign==1.1.31
 typing==3.6.4
-urllib3==1.22
+urllib3==1.24.2
 zalando-aws-cli==1.2.4.22
 zalando-deploy-cli==1.0.10
 zalando-kubectl==1.9.3.30
