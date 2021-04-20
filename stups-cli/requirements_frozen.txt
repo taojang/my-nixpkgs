@@ -16,7 +16,7 @@ kmsclient==0.3
 more-itertools==4.1.0
 packaging==16.8
 pluggy==0.6.0
-py==1.5.3
+py==1.10.0
 PyJWT==1.6.1
 pyparsing==2.2.0
 pyperclip==1.6.0
