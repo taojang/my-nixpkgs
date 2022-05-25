@@ -17,7 +17,7 @@ more-itertools==4.1.0
 packaging==16.8
 pluggy==0.6.0
 py==1.5.3
-PyJWT==1.6.1
+PyJWT==2.4.0
 pyparsing==2.2.0
 pyperclip==1.6.0
 pystache==0.5.4
